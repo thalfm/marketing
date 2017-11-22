@@ -3,6 +3,14 @@
 {% block title %}{{ data }} }}{% endblock %}
 
 {% block content %}
-{{ data }}
-    
+    {{ data }}
+
+    {% for cliente in clientes %}
+        <pre>
+        {{ cliente.id }} - {{ cliente.nome }} - {{ cliente.email }} - {{ cliente.cpf }} <br>
+        {% for endereco in cliente.enderecos %}
+            {{ endereco.logradouro }} - {{ endereco.cidade }} - {{ endereco.estado }} - {{ endereco.cep }} <br>
+        {% endfor %}
+        </pre>
+    {% endfor %}
 {% endblock %}

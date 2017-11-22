@@ -8,6 +8,7 @@
 
 namespace App\Action;
 
+use Doctrine\ORM\EntityManager;
 use Interop\Container\ContainerInterface;
 use Zend\Expressive\Router\RouterInterface;
 use Zend\Expressive\Template\TemplateRendererInterface;
@@ -20,7 +21,8 @@ class TestePageFactory
         $template = $container->has(TemplateRendererInterface::class)
             ? $container->get(TemplateRendererInterface::class)
             : null;
+        $manager = $container->get(EntityManager::class);
 
-        return new TestePageAction($router, $template);
+        return new TestePageAction($manager, $router, $template);
     }
 }

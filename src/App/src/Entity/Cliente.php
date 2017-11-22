@@ -40,7 +40,7 @@ class Cliente implements \JsonSerializable
 
     /**
      * Um cliente tem muitos enderecos
-     * @OneToMany(targetEntity="Endereco", mappedBy="Cliente")
+     * @ORM\OneToMany(targetEntity="Endereco", mappedBy="cliente")
      */
     private $enderecos;
 
@@ -121,6 +121,10 @@ class Cliente implements \JsonSerializable
         return $this;
     }
 
+    public function getEnderecos()
+    {
+        return $this->enderecos;
+    }
 
     /**
      * Specify data which should be serialized to JSON

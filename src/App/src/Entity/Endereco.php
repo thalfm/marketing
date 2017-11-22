@@ -10,7 +10,14 @@ namespace App\Entity;
 
 
 use JsonSerializable;
+use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * Class Cliente
+ * @package App\Entity
+ * @ORM\Entity
+ * @ORM\Table(name="Endereco")
+ */
 class Endereco implements JsonSerializable
 {
     /**
@@ -21,7 +28,6 @@ class Endereco implements JsonSerializable
     private $id;
 
     /**
-     * @ORM\id
      * @ORM\Column(type="integer")
      */
     private $cliente_id;
@@ -45,8 +51,8 @@ class Endereco implements JsonSerializable
 
     /**
      * Muitos endereços tem um cliente.
-     * @ManyToOne(targetEntity="Cliente", inversedBy="enderecos")
-     * @JoinColumn(name="cliente_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Cliente", inversedBy="enderecos")
+     * @ORM\JoinColumn(name="cliente_id", referencedColumnName="id")
      */
     private $cliente;
 
@@ -156,6 +162,24 @@ class Endereco implements JsonSerializable
     {
         $this->estado = $estado;
         return $this;
+    }
+
+    /**
+     * @param Cliente $cliente
+     * @return $this
+     */
+    public function setCliente(Cliente $cliente)
+    {
+        $this->cliente = $cliente;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCliente()
+    {
+        return $this->cliente;
     }
 
     /**

@@ -2,6 +2,9 @@
 
 namespace App\Action;
 
+use App\Entity\Cliente;
+use App\Entity\Endereco;
+use Doctrine\ORM\EntityManager;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface as ServerMiddlewareInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -18,11 +21,16 @@ class TestePageAction implements ServerMiddlewareInterface
     private $router;
 
     private $template;
+    /**
+     * @var EntityManager
+     */
+    private $maneger;
 
-    public function __construct(Router\RouterInterface $router, Template\TemplateRendererInterface $template = null)
+    public function __construct(EntityManager $maneger, Router\RouterInterface $router, Template\TemplateRendererInterface $template = null)
     {
         $this->router   = $router;
         $this->template = $template;
+        $this->maneger = $maneger;
     }
 
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
@@ -34,6 +42,28 @@ class TestePageAction implements ServerMiddlewareInterface
             ]);
         }
 
-        return new HtmlResponse($this->template->render('app::teste', ['data' => 'Minha primeira aplicação']));
+        $cliente = (new Cliente())
+            ->setNome('teste')
+            ->setCpf(12345678912)
+            ->setEmail('teste@teste.com');
+
+        $this->maneger->persist($cliente);
+
+        $endereco = (new Endereco())
+            ->setCep(700000)
+            ->setCidade('Brasilia')
+            ->setEstado('DF')
+            ->setLogradouro('Jardim Botânico')
+            ->setCliente($cliente);
+
+        $this->maneger->persist($endereco);
+        $this->maneger->flush();
+
+        $clientes = $this->maneger->getRepository(Cliente::class)->findAll();
+
+        return new HtmlResponse($this->template->render('app::teste', [
+            'data' => 'Minha primeira aplicação',
+            'clientes' => $clientes
+        ]));
     }
 }

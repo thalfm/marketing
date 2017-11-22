@@ -22,6 +22,7 @@ class DoctrineFactory
     public function __invoke(ContainerInterface $container)
     {
         $config = $container->has('config') ? $container->get('config') : [];
+
         $proxyDir = (isset($config['doctrine']['orm']['proxy_dir'])) ?
             $config['doctrine']['orm']['proxy_dir'] : 'data/cache/EntityProxy';
         $proxyNamespace = (isset($config['doctrine']['orm']['proxy_namespace'])) ?
