@@ -47,8 +47,6 @@ class TestePageAction implements ServerMiddlewareInterface
             ->setCpf(12345678912)
             ->setEmail('teste@teste.com');
 
-        $this->maneger->persist($cliente);
-
         $endereco = (new Endereco())
             ->setCep(700000)
             ->setCidade('Brasilia')
@@ -56,7 +54,9 @@ class TestePageAction implements ServerMiddlewareInterface
             ->setLogradouro('Jardim Botânico')
             ->setCliente($cliente);
 
-        $this->maneger->persist($endereco);
+        $cliente->getEnderecos()->add($endereco);
+
+        $this->maneger->persist($cliente);
         $this->maneger->flush();
 
         $clientes = $this->maneger->getRepository(Cliente::class)->findAll();

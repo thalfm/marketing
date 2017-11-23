@@ -40,7 +40,7 @@ class Cliente implements \JsonSerializable
 
     /**
      * Um cliente tem muitos enderecos
-     * @ORM\OneToMany(targetEntity="Endereco", mappedBy="cliente")
+     * @ORM\OneToMany(cascade={"persist"}, targetEntity="Endereco", mappedBy="cliente")
      */
     private $enderecos;
 
