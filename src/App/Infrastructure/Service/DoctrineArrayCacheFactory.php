@@ -6,7 +6,7 @@
  * Time: 12:59
  */
 
-namespace App\Container;
+namespace App\Infrastructure\Service;
 
 use Doctrine\Common\Cache\ArrayCache;
 use Interop\Container\ContainerInterface;

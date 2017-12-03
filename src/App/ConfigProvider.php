@@ -2,6 +2,13 @@
 
 namespace App;
 
+use App\Application\Action\Customer\CustomerListPageAction;
+use App\Application\Action\Customer\CustomerListPageFactory;
+use App\Application\Action\HomePageAction;
+use App\Application\Action\HomePageFactory;
+use App\Application\Action\TestePageAction;
+use App\Application\Action\TestePageFactory;
+
 /**
  * The configuration provider for the App module
  *
@@ -21,7 +28,7 @@ class ConfigProvider
     {
         return [
             'dependencies' => $this->getDependencies(),
-            'templates'    => $this->getTemplates(),
+            'templates' => $this->getTemplates(),
         ];
     }
 
@@ -34,11 +41,12 @@ class ConfigProvider
     {
         return [
             'invokables' => [
-                Action\PingAction::class => Action\PingAction::class,
+                Application\Action\PingAction::class => Application\Action\PingAction::class,
             ],
-            'factories'  => [
-                Action\HomePageAction::class => Action\HomePageFactory::class,
-                Action\TestePageAction::class => Action\TestePageFactory::class
+            'factories' => [
+                HomePageAction::class => HomePageFactory::class,
+                TestePageAction::class => TestePageFactory::class,
+                CustomerListPageAction::class => CustomerListPageFactory::class
             ],
         ];
     }
@@ -52,9 +60,9 @@ class ConfigProvider
     {
         return [
             'paths' => [
-                'app'    => [__DIR__ . '/../templates/app'],
-                'error'  => [__DIR__ . '/../templates/error'],
-                'layout' => [__DIR__ . '/../templates/layout'],
+                'app' => [__DIR__ . '\templates\app'],
+                'error' => [__DIR__ . '\templates\error'],
+                'layout' => [__DIR__ . '\templates\layout'],
             ],
         ];
     }

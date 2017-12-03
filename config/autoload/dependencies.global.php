@@ -1,5 +1,7 @@
 <?php
 
+use App\Domain\Persistence\CustomerRepositoryInterface;
+use App\Infrastructure\Persistence\Doctrine\Repository\CustomerRepositoryFactory;
 use Zend\Expressive\Application;
 use Zend\Expressive\Container;
 use Zend\Expressive\Delegate;
@@ -35,8 +37,9 @@ return [
             Middleware\ErrorResponseGenerator::class         => Container\ErrorResponseGeneratorFactory::class,
             Middleware\NotFoundHandler::class                => Container\NotFoundHandlerFactory::class,
 
-            Doctrine\Common\Cache\Cache::class => App\Container\DoctrineArrayCacheFactory::class,
-            Doctrine\ORM\EntityManager::class  => App\Container\DoctrineFactory::class,
+            Doctrine\Common\Cache\Cache::class => \App\Infrastructure\Service\DoctrineArrayCacheFactory::class,
+            Doctrine\ORM\EntityManager::class  => \App\Infrastructure\Service\DoctrineFactory::class,
+            CustomerRepositoryInterface::class => CustomerRepositoryFactory::class
         ],
     ],
 ];

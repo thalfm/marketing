@@ -6,18 +6,19 @@
  * Time: 13:09
  */
 
-namespace App\Entity;
+namespace App\Domain\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 
 /**
  * Class Cliente
- * @package App\Entity
+ * @package App\Domain\Entity
  * @ORM\Entity
  * @ORM\Table(name="Cliente")
  */
-class Cliente implements \JsonSerializable
+class Cliente implements JsonSerializable
 {
     /**
      * @ORM\id

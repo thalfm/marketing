@@ -6,8 +6,9 @@
  * Time: 15:19
  */
 
-namespace App\Action;
+namespace App\Application\Action;
 
+use App\Domain\Persistence\CustomerRepositoryInterface;
 use Doctrine\ORM\EntityManager;
 use Interop\Container\ContainerInterface;
 use Zend\Expressive\Router\RouterInterface;
@@ -17,12 +18,10 @@ class TestePageFactory
 {
     public function __invoke(ContainerInterface $container)
     {
-        $router   = $container->get(RouterInterface::class);
-        $template = $container->has(TemplateRendererInterface::class)
-            ? $container->get(TemplateRendererInterface::class)
-            : null;
-        $manager = $container->get(EntityManager::class);
+        $router = $container->get(RouterInterface::class);
+        $template = $container->get(TemplateRendererInterface::class);
+        $repository = $container->get(CustomerRepositoryInterface::class);
 
-        return new TestePageAction($manager, $router, $template);
+        return new TestePageAction($repository, $router, $template);
     }
 }

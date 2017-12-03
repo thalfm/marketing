@@ -5,12 +5,9 @@
 {% block content %}
     {{ data }}
 
-    {% for cliente in clientes %}
+    {% for customer in customers %}
         <pre>
-        {{ cliente.id }} - {{ cliente.nome }} - {{ cliente.email }} - {{ cliente.cpf }} <br>
-        {% for endereco in cliente.enderecos %}
-            {{ endereco.logradouro }} - {{ endereco.cidade }} - {{ endereco.estado }} - {{ endereco.cep }} <br>
-        {% endfor %}
+        {{ customer.id }} - {{ customer.name }} - {{ customer.email }} <br>
         </pre>
     {% endfor %}
 {% endblock %}

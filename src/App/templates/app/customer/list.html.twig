@@ -1,0 +1,40 @@
+{% extends '@layout/default.html.twig' %}
+{% block content %}
+    <div class="row">
+        <div class="box">
+            <div class="box-header">
+            </div>
+            <div class="box-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="width: 10px;">#</th>
+                            <th>Nome</th>
+                            <th>E-mail</th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for customer in customers %}
+                        <tr>
+                            <td>{{ customer.id }}</td>
+                            <td>{{ customer.name }}</td>
+                            <td>{{ customer.email }}</td>
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block title %}
+    Listagem de Contatos -  {{ parent() }}
+{% endblock %}
+ {% block page_header %}
+     Listagem de Contatos
+ {% endblock %}

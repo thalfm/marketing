@@ -6,15 +6,14 @@
  * Time: 13:16
  */
 
-namespace App\Entity;
+namespace App\Domain\Entity;
 
 
 use JsonSerializable;
 use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Class Cliente
- * @package App\Entity
+ * @package App\Domain\Entity
  * @ORM\Entity
  * @ORM\Table(name="Endereco")
  */

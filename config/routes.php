@@ -2,7 +2,7 @@
 /**
  * Setup routes with a single request method:
  *
- * $app->get('/', App\Action\HomePageAction::class, 'home');
+ * $app->get('/', App\Application\Action\HomePageAction::class, 'home');
  * $app->post('/album', App\Action\AlbumCreateAction::class, 'album.create');
  * $app->put('/album/:id', App\Action\AlbumUpdateAction::class, 'album.put');
  * $app->patch('/album/:id', App\Action\AlbumUpdateAction::class, 'album.patch');
@@ -25,7 +25,8 @@
  *     'contact'
  * );
  */
-
-$app->get('/', App\Action\HomePageAction::class, 'home');
-$app->get('/teste', App\Action\TestePageAction::class, 'teste');
-$app->get('/api/ping', App\Action\PingAction::class, 'api.ping');
+/** @var \Zend\Expressive\Application $app */
+$app->get('/', \App\Application\Action\HomePageAction::class, 'home');
+$app->get('/teste', \App\Application\Action\TestePageAction::class, 'teste');
+$app->get('/api/ping', \App\Application\Action\PingAction::class, 'api.ping');
+$app->get('/admin/list', \App\Application\Action\Customer\CustomerListPageAction::class, 'customer.list');

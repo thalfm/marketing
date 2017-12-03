@@ -17,6 +17,7 @@ return [
     ],
 
     'twig' => [
+        'debug' => true,
         'cache_dir'      => 'data/cache/twig',
         'assets_url'     => '/',
         'assets_version' => null,

@@ -1,0 +1,18 @@
+#App.Domain.Entity.Customer.dcm.yml
+App\Domain\Entity\Customer:
+  type: entity
+  repositoryClass: \App\Infrastructure\Persistence\Doctrine\Repository\CustomerRepository
+  table: customers
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    name:
+      type: string
+      length: 200
+      nullable: true
+    email:
+      type: string
+      length: 200
