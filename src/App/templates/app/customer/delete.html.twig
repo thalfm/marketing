@@ -1,0 +1,45 @@
+{%  extends '@layout/default.html.twig' %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-8">
+            <div class="box box-primary">
+                <div class="box-body">
+
+                    <form name="form" role="form">
+                        <fieldset disabled>
+
+
+                            <div class="box-body">
+                                <div class="form-group">
+                                    <label for="name">Nome:</label>
+                                    <input type="text" class="form-control" name="name" value="{{ customer.name }}"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email:</label>
+                                    <input type="email" class="form-control" name="email" value="{{ customer.email }}"
+                                           required="required"/>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+
+                    <form name="form" role="form" method="post" action="{{ url('customer.delete',{id: customer.id}) }}">
+                        <input type="hidden" class="form-control" name="_method" value="DELETE">
+                        <div class="box-footer">
+                            <button class="btn btn-danger" type="submit">Excluir</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block title %}
+    Edição de Contato -  {{ parent() }}
+{% endblock %}
+ {% block page_header %}
+     Edição de Contato - {{ customer.name }}
+ {% endblock %}
