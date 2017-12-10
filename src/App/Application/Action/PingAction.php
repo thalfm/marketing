@@ -5,6 +5,7 @@ namespace App\Application\Action;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface as ServerMiddlewareInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use function var_dump;
 use Zend\Diactoros\Response\JsonResponse;
 
 class PingAction implements ServerMiddlewareInterface

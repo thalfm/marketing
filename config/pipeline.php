@@ -5,6 +5,7 @@ use Zend\Expressive\Helper\UrlHelperMiddleware;
 use Zend\Expressive\Middleware\ImplicitHeadMiddleware;
 use Zend\Expressive\Middleware\ImplicitOptionsMiddleware;
 use Zend\Expressive\Middleware\NotFoundHandler;
+use Zend\Expressive\Session\SessionMiddleware;
 use Zend\Stratigility\Middleware\ErrorHandler;
 
 /**
@@ -13,8 +14,10 @@ use Zend\Stratigility\Middleware\ErrorHandler;
 
 // The error handler should be the first (most outer) middleware to catch
 // all Exceptions.
+/** @var \Zend\Expressive\Application $app */
 $app->pipe(ErrorHandler::class);
 $app->pipe(ServerUrlMiddleware::class);
+$app->pipe(SessionMiddleware::class);
 
 // Pipe more middleware here that you want to execute on every request:
 // - bootstrapping
@@ -46,8 +49,10 @@ $app->pipe(UrlHelperMiddleware::class);
 // - route-based validation
 // - etc.
 
+$app->pipe(\Zend\Expressive\Flash\FlashMessageMiddleware::class);
 // Register the dispatch middleware in the middleware pipeline
 $app->pipeDispatchMiddleware();
+
 
 // At this point, if no Response is return by any middleware, the
 // NotFoundHandler kicks in; alternately, you can provide other fallback

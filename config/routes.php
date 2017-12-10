@@ -30,3 +30,6 @@ $app->get('/', \App\Application\Action\HomePageAction::class, 'home');
 $app->get('/teste', \App\Application\Action\TestePageAction::class, 'teste');
 $app->get('/api/ping', \App\Application\Action\PingAction::class, 'api.ping');
 $app->get('/admin/list', \App\Application\Action\Customer\CustomerListPageAction::class, 'customer.list');
+$app->route('/admin/create', \App\Application\Action\Customer\CustomerCreatePageAction::class, ['GET', 'POST'], 'customer.create');
+$app->route('/admin/update/{id}', \App\Application\Action\Customer\CustomerUpdatePageAction::class, ['GET', 'POST', 'PUT'], 'customer.update');
+$app->route('/admin/delete/{id}', \App\Application\Action\Customer\CustomerDeletePageAction::class, ['GET', 'POST', 'DELETE'], 'customer.delete');

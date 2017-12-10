@@ -7,6 +7,8 @@ use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface as ServerMiddlewareInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\HtmlResponse;
+use Zend\Expressive\Flash\FlashMessageMiddleware;
+use Zend\Expressive\Flash\FlashMessagesInterface;
 use Zend\Expressive\Router\RouterInterface;
 use Zend\Expressive\Template\TemplateRendererInterface;
 
@@ -31,9 +33,12 @@ class CustomerListPageAction implements ServerMiddlewareInterface
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
         $customers = $this->repository->findAll();
-
+        /** @var FlashMessagesInterface $flashMessage */
+        $flashMessage = $request->getAttribute(FlashMessageMiddleware::FLASH_ATTRIBUTE);
+        $message = $flashMessage->getFlash('success');
         return new HtmlResponse($this->template->render('app::customer/list', [
-            'customers' => $customers
+            'customers' => $customers,
+            'message' => $message
         ]));
     }
 }

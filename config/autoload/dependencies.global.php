@@ -37,9 +37,9 @@ return [
             Middleware\ErrorResponseGenerator::class         => Container\ErrorResponseGeneratorFactory::class,
             Middleware\NotFoundHandler::class                => Container\NotFoundHandlerFactory::class,
 
-            Doctrine\Common\Cache\Cache::class => \App\Infrastructure\Service\DoctrineArrayCacheFactory::class,
-            Doctrine\ORM\EntityManager::class  => \App\Infrastructure\Service\DoctrineFactory::class,
-            CustomerRepositoryInterface::class => CustomerRepositoryFactory::class
+            Doctrine\Common\Cache\Cache::class => \App\Infrastructure\Service\Doctrine\DoctrineArrayCacheFactory::class,
+            Doctrine\ORM\EntityManager::class  => \App\Infrastructure\Service\Doctrine\DoctrineFactory::class,
+            CustomerRepositoryInterface::class => CustomerRepositoryFactory::class,
         ],
     ],
 ];

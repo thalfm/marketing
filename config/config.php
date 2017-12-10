@@ -11,6 +11,9 @@ $cacheConfig = [
 ];
 
 $aggregator = new ConfigAggregator([
+    \Zend\Expressive\Session\Ext\ConfigProvider::class,
+    \Zend\Expressive\Flash\ConfigProvider::class,
+    \Zend\Expressive\Session\ConfigProvider::class,
     // Include cache configuration
     new ArrayProvider($cacheConfig),
 

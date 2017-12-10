@@ -2,8 +2,14 @@
 
 namespace App;
 
+use App\Application\Action\Customer\CustomerCreatePageAction;
+use App\Application\Action\Customer\CustomerDeletePageAction;
 use App\Application\Action\Customer\CustomerListPageAction;
-use App\Application\Action\Customer\CustomerListPageFactory;
+use App\Application\Action\Customer\CustomerUpdatePageAction;
+use App\Application\Action\Customer\Factory\CustomerCreatePageFactory;
+use App\Application\Action\Customer\Factory\CustomerDeletePageFactory;
+use App\Application\Action\Customer\Factory\CustomerListPageFactory;
+use App\Application\Action\Customer\Factory\CustomerUpdatePageFactory;
 use App\Application\Action\HomePageAction;
 use App\Application\Action\HomePageFactory;
 use App\Application\Action\TestePageAction;
@@ -42,11 +48,15 @@ class ConfigProvider
         return [
             'invokables' => [
                 Application\Action\PingAction::class => Application\Action\PingAction::class,
+                \Zend\Expressive\Flash\FlashMessageMiddleware::class => \Zend\Expressive\Flash\FlashMessageMiddleware::class,
             ],
             'factories' => [
                 HomePageAction::class => HomePageFactory::class,
                 TestePageAction::class => TestePageFactory::class,
-                CustomerListPageAction::class => CustomerListPageFactory::class
+                CustomerListPageAction::class => CustomerListPageFactory::class,
+                CustomerCreatePageAction::class => CustomerCreatePageFactory::class,
+                CustomerUpdatePageAction::class => CustomerUpdatePageFactory::class,
+                CustomerDeletePageAction::class => CustomerDeletePageFactory::class
             ],
         ];
     }
