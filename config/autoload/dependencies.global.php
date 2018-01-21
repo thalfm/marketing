@@ -1,5 +1,7 @@
 <?php
 
+use App\Application\Middleware\TwigMiddleware;
+use App\Application\Middleware\TwigMiddlewareFactory;
 use App\Domain\Persistence\CustomerRepositoryInterface;
 use App\Infrastructure\Persistence\Doctrine\Repository\CustomerRepositoryFactory;
 use Zend\Expressive\Application;
@@ -32,6 +34,7 @@ return [
             Helper\ServerUrlMiddleware::class => Helper\ServerUrlMiddlewareFactory::class,
             Helper\UrlHelper::class           => Helper\UrlHelperFactory::class,
             Helper\UrlHelperMiddleware::class => Helper\UrlHelperMiddlewareFactory::class,
+            TwigMiddleware::class             => TwigMiddlewareFactory::class,
 
             Zend\Stratigility\Middleware\ErrorHandler::class => Container\ErrorHandlerFactory::class,
             Middleware\ErrorResponseGenerator::class         => Container\ErrorResponseGeneratorFactory::class,

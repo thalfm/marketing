@@ -9,6 +9,7 @@
 namespace App\Application\Action\Customer;
 
 
+use App\Application\Form\CustomerForm;
 use App\Domain\Entity\Customer;
 use App\Domain\Persistence\CustomerRepositoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -46,9 +47,10 @@ class CustomerCreatePageAction
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next = null)
     {
-        /** @var FlashMessagesInterface $flashMessage */
-        $flashMessage = $request->getAttribute(FlashMessageMiddleware::FLASH_ATTRIBUTE);
+       $customerForm = new CustomerForm();
         if ($request->getMethod() == 'POST'){
+            /** @var FlashMessagesInterface $flashMessage */
+            $flashMessage = $request->getAttribute(FlashMessageMiddleware::FLASH_ATTRIBUTE);
             $data = $request->getParsedBody();
             $entity = new Customer();
             $entity->setName($data['name']);
@@ -59,6 +61,8 @@ class CustomerCreatePageAction
             return new RedirectResponse($uri);
         }
 
-        return new HtmlResponse($this->template->render("app::customer/create"));
+        return new HtmlResponse($this->template->render("app::customer/create", [
+            'form' => $customerForm
+        ]));
     }
 }

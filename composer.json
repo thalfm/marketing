@@ -5,7 +5,7 @@
     "homepage": "https://github.com/zendframework/zend-expressive-skeleton",
     "license": "BSD-3-Clause",
     "config": {
-        "sort-packages": true
+        "secure-http": true
     },
     "require": {
         "php": "^5.6 || ^7.0",
@@ -21,7 +21,11 @@
         "zendframework/zend-expressive-session-ext": "^0.1.1",
         "zendframework/zend-expressive-twigrenderer": "^1.4",
         "zendframework/zend-servicemanager": "^3.3",
-        "zendframework/zend-stdlib": "^3.1"
+        "zendframework/zend-stdlib": "^3.1",
+        "symfony/yaml": "^4.0",
+        "zendframework/zend-form": "^2.11",
+        "zendframework/zend-i18n": "^2.7",
+        "zendframework/zend-view": "^2.9"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.0.8 || ^5.7.15",

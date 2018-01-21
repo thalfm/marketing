@@ -2,13 +2,12 @@
 
 use Zend\Expressive\Template\TemplateRendererInterface;
 use Zend\Expressive\Twig\TwigEnvironmentFactory;
-use Zend\Expressive\Twig\TwigRendererFactory;
 
 return [
     'dependencies' => [
         'factories' => [
             Twig_Environment::class => TwigEnvironmentFactory::class,
-            TemplateRendererInterface::class => TwigRendererFactory::class,
+            TemplateRendererInterface::class => \App\Infrastructure\View\Twig\TwigRendererFactory::class,
         ],
     ],
 
