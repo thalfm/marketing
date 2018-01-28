@@ -43,6 +43,7 @@ return [
             Doctrine\Common\Cache\Cache::class => \App\Infrastructure\Service\Doctrine\DoctrineArrayCacheFactory::class,
             Doctrine\ORM\EntityManager::class  => \App\Infrastructure\Service\Doctrine\DoctrineFactory::class,
             CustomerRepositoryInterface::class => CustomerRepositoryFactory::class,
+            'doctrine:fixtures_cmd:load'   => \CodeEdu\FixtureFactory::class,
         ],
     ],
 ];

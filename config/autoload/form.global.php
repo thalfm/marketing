@@ -12,7 +12,8 @@ $forms = [
         'invokables' => [
         ],
         'factories'  => [
-            \Zend\View\HelperPluginManager::class => \App\Infrastructure\View\HelperPluginManegerFactory::class
+            \Zend\View\HelperPluginManager::class => \App\Infrastructure\View\HelperPluginManegerFactory::class,
+            \App\Application\Form\CustomerForm::class => \App\Application\Form\Factory\CustomerFormFactory::class
         ],
     ],
     'view_helpers' => [

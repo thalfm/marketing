@@ -1,34 +1,30 @@
-{%  extends '@layout/default.html.twig' %}
+{% extends '@layout/default.html.twig' %} {# para concatenar no twig usa o ~ #}
+{% block title %}Edição de contato - {{ parent() }}{% endblock %}
 {% block content %}
+    {% include '@app/customer/_form-elements.html.twig' %}
+
+    {% set submit = form.get('submit') %}
+    {% do submit.setAttribute('class','btn btn-primary').setLabel('Editar') %}
+
+    {% do form.setAttribute('action',url('customer.update',{id: form.getObject().id})) %}
+    {% do form.prepare() %}
     <div class="row">
         <div class="col-md-8">
             <div class="box box-primary">
                 <div class="box-body">
-                    <form name="form" role="form" method="post" action="{{ url('customer.update', {id: customer.id}) }}">
-                        <input type="hidden" class="form-control" name="_method" value="PUT">
-                        <div class="box-body">
-                            <div class="form-group">
-                                <label for="name">Nome:</label>
-                                <input type="text" class="form-control" name="name" value="{{ customer.name }}"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email:</label>
-                                <input type="email" class="form-control" name="email" value="{{ customer.email }}"
-                                       required="required"/>
-                            </div>
-                        </div>
-                        <div class="box-footer">
-                            <button class="btn btn-primary" type="submit">Editar</button>
-                        </div>
-                    </form>
+                    {{ form().openTag(form) | raw }}
+                    {{ formHidden(form.get('_method')) }}
+                    {% include '@app/customer/_form.html.twig' %}
+                    <div class="box-footer">
+                        {{ formButton(submit) }}
+                    </div>
+                    {{ form().closeTag() | raw }}
                 </div>
             </div>
         </div>
     </div>
-
-
 {% endblock %}
 
-{% block title %}
-    Edição de Contato -  {{ parent() }}
+{% block page_header %}
+    Edição de  Contato - {{ form.getObject().name }}
 {% endblock %}

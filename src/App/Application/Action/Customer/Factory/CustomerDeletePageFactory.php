@@ -9,6 +9,7 @@
 namespace App\Application\Action\Customer\Factory;
 
 use App\Application\Action\Customer\CustomerDeletePageAction;
+use App\Application\Form\CustomerForm;
 use App\Domain\Persistence\CustomerRepositoryInterface;
 use Interop\Container\ContainerInterface;
 use Zend\Expressive\Router\RouterInterface;
@@ -21,7 +22,8 @@ class CustomerDeletePageFactory
         $router = $container->get(RouterInterface::class);
         $template = $container->get(TemplateRendererInterface::class);
         $repository = $container->get(CustomerRepositoryInterface::class);
+        $customerForm = $container->get(CustomerForm::class);
 
-        return new CustomerDeletePageAction($repository, $router, $template);
+        return new CustomerDeletePageAction($repository, $router, $template, $customerForm);
     }
 }

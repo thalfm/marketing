@@ -9,6 +9,7 @@
 namespace App\Application\Action\Customer\Factory;
 
 use App\Application\Action\Customer\CustomerCreatePageAction;
+use App\Application\Form\CustomerForm;
 use App\Domain\Persistence\CustomerRepositoryInterface;
 use Interop\Container\ContainerInterface;
 use Zend\Expressive\Router\RouterInterface;
@@ -21,7 +22,8 @@ class CustomerCreatePageFactory
         $router = $container->get(RouterInterface::class);
         $template = $container->get(TemplateRendererInterface::class);
         $repository = $container->get(CustomerRepositoryInterface::class);
+        $customerForm = $container->get(CustomerForm::class);
 
-        return new CustomerCreatePageAction($repository, $router, $template);
+        return new CustomerCreatePageAction($repository, $router, $template, $customerForm);
     }
 }

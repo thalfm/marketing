@@ -1,36 +1,29 @@
-{% extends '@layout/default.html.twig' %}
+{% extends '@layout/default.html.twig' %} {# para concatenar no twig usa o ~ #}
+{% block title %}Novo contato - {{ parent() }}{% endblock %}
 {% block content %}
+    {% include '@app/customer/_form-elements.html.twig' %}
+
+    {% set submit = form.get('submit') %}
+    {% do submit.setAttribute('class','btn btn-primary').setLabel('Incluir') %}
+
+    {% do form.setAttribute('action', url('customer.create')) %}
+    {% do form.prepare() %}
     <div class="row">
         <div class="col-md-8">
             <div class="box box-primary">
-                {{ form(form) }}
                 <div class="box-body">
-                    <form name="form" role="form" method="post" action="{{ url('customer.create') }}">
-                        <div class="box-body">
-                            <div class="form-group">
-                                <label for="name">Nome:</label>
-                                <input type="text" class="form-control" name="name"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email:</label>
-                                <input type="email" class="form-control" name="email" required="required"/>
-                            </div>
-                        </div>
-                        <div class="box-footer">
-                            <button class="btn btn-primary" type="submit">Incluir</button>
-                        </div>
-                    </form>
+                    {{ form().openTag(form) | raw}}
+                    {% include '@app/customer/_form.html.twig' %}
+                    <div class="box-footer">
+                        {{ formButton(submit) }}
+                    </div>
+                    {{ form().closeTag()| raw}}
                 </div>
             </div>
         </div>
     </div>
-
-
 {% endblock %}
 
-{% block title %}
-    Novo Contato -  {{ parent() }}
+{% block page_header %}
+    Novo Contato
 {% endblock %}
- {% block page_header %}
-     Novo Contato
- {% endblock %}

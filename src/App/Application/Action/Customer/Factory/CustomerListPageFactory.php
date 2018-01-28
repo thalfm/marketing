@@ -9,6 +9,7 @@
 namespace App\Application\Action\Customer\Factory;
 
 use App\Application\Action\Customer\CustomerListPageAction;
+use App\Application\Form\CustomerForm;
 use App\Domain\Persistence\CustomerRepositoryInterface;
 use Interop\Container\ContainerInterface;
 use Zend\Expressive\Router\RouterInterface;

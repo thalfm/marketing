@@ -26,7 +26,7 @@ class CustomerForm extends Form
             'type' => Hidden::class
         ]);
         $this->add([
-            'name' => 'nome',
+            'name' => 'name',
             'type' => Text::class,
             'options' => [
                 'label' => 'Nome: '
