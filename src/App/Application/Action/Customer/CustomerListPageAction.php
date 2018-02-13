@@ -23,7 +23,10 @@ class CustomerListPageAction implements ServerMiddlewareInterface
      */
     private $repository;
 
-    public function __construct(CustomerRepositoryInterface $repository, RouterInterface $router, TemplateRendererInterface $template = null)
+    public function __construct(
+        CustomerRepositoryInterface $repository,
+        RouterInterface $router,
+        TemplateRendererInterface $template = null)
     {
         $this->router = $router;
         $this->template = $template;

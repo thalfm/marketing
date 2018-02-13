@@ -1,0 +1,44 @@
+{% extends '@layout/auth.html.twig' %} {# para concatenar no twig usa o ~ #}
+{% block title %}Login - {{ parent() }}{% endblock %}
+{% block content %}
+    {% set email = form.get('email') %}
+    {% do email.setAttribute('class','form-control') %}
+
+    {% set password = form.get('password') %}
+    {% do password.setAttribute('class','form-control') %}
+
+    {% set submit = form.get('submit') %}
+    {% do submit.setAttribute('class','btn btn-primary btn-lg btn-block').setLabel('Entrar') %}
+
+    {% do form.setAttribute('action', url('auth.login')) %}
+    {% do form.prepare() %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-success">
+                <div class="box-body">
+                    {{ form().openTag(form) | raw}}
+                    {% set message = formElementErrors(email,{class: 'help-block'}) %}
+                    <div class="form-group {{ message? 'has-error' }}">
+                        {{ formLabel(email) }}
+                        {{ formElement(email) }}
+                        {{ message | raw }}
+                    </div>
+                    {% set message = formElementErrors(password,{class: 'help-block'}) %}
+                    <div class="form-group {{ message? 'has-error' }}">
+                        {{ formLabel(password) }}
+                        {{ formElement(password) }}
+                        {{ message | raw }}
+                    </div>
+                    <div class="box-footer">
+                        {{ formButton(submit) }}
+                    </div>
+                    {{ form().closeTag()| raw}}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block page_header %}
+    Code E-Mail MKT -Login
+{% endblock %}

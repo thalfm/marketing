@@ -12,6 +12,10 @@ use App\Application\Action\Customer\Factory\CustomerListPageFactory;
 use App\Application\Action\Customer\Factory\CustomerUpdatePageFactory;
 use App\Application\Action\HomePageAction;
 use App\Application\Action\HomePageFactory;
+use App\Application\Action\LoginPageHandle;
+use App\Application\Action\LoginPageFactory;
+use App\Application\Action\LogoutHandle;
+use App\Application\Action\LogoutFactory;
 use App\Application\Action\TestePageAction;
 use App\Application\Action\TestePageFactory;
 
@@ -56,7 +60,9 @@ class ConfigProvider
                 CustomerListPageAction::class => CustomerListPageFactory::class,
                 CustomerCreatePageAction::class => CustomerCreatePageFactory::class,
                 CustomerUpdatePageAction::class => CustomerUpdatePageFactory::class,
-                CustomerDeletePageAction::class => CustomerDeletePageFactory::class
+                CustomerDeletePageAction::class => CustomerDeletePageFactory::class,
+                LoginPageHandle::class=> LoginPageFactory::class,
+                LogoutHandle::class => LogoutFactory::class,
             ],
         ];
     }

@@ -33,3 +33,11 @@ $app->get('/admin/list', \App\Application\Action\Customer\CustomerListPageAction
 $app->route('/admin/create', \App\Application\Action\Customer\CustomerCreatePageAction::class, ['GET', 'POST'], 'customer.create');
 $app->route('/admin/update/{id}', \App\Application\Action\Customer\CustomerUpdatePageAction::class, ['GET', 'POST', 'PUT'], 'customer.update');
 $app->route('/admin/delete/{id}', \App\Application\Action\Customer\CustomerDeletePageAction::class, ['GET', 'POST', 'DELETE'], 'customer.delete');
+$app->route('/auth/login',
+    [
+        \App\Application\Action\LoginPageHandle::class,
+        \Zend\Expressive\Authentication\AuthenticationMiddleware::class,
+    ],
+    ['GET', 'POST'],
+    'auth.login');
+$app->get('/auth/logout', \App\Application\Action\LogoutHandle::class, 'auth.logout');

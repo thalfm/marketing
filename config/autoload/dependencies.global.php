@@ -3,7 +3,11 @@
 use App\Application\Middleware\TwigMiddleware;
 use App\Application\Middleware\TwigMiddlewareFactory;
 use App\Domain\Persistence\CustomerRepositoryInterface;
+use App\Domain\Persistence\UserRepositoryInterface;
 use App\Infrastructure\Persistence\Doctrine\Repository\CustomerRepositoryFactory;
+use App\Infrastructure\Persistence\Doctrine\Repository\UserRepositoryFactory;
+use App\Infrastructure\Service\Doctrine\DoctrineArrayCacheFactory;
+use App\Infrastructure\Service\Doctrine\DoctrineFactory;
 use Zend\Expressive\Application;
 use Zend\Expressive\Container;
 use Zend\Expressive\Delegate;
@@ -21,6 +25,8 @@ return [
             'Zend\Expressive\Delegate\DefaultDelegate' => Delegate\NotFoundDelegate::class,
             'Configuration' => 'config', //Doctrine needs a service called Configuration
             'Config' => 'config', //Doctrine needs a service called Configuration
+            //\Zend\Authentication\AuthenticationService::class => 'doctrine.authenticationservice.orm_default',
+            Zend\Expressive\Authentication\UserRepositoryInterface::class => Zend\Expressive\Authentication\UserRepository\PdoDatabase::class,
         ],
         // Use 'invokables' for constructor-less services, or services that do
         // not require arguments to the constructor. Map a service name to the
@@ -37,15 +43,19 @@ return [
             Helper\UrlHelper::class           => Helper\UrlHelperFactory::class,
             Helper\UrlHelperMiddleware::class => Helper\UrlHelperMiddlewareFactory::class,
             TwigMiddleware::class             => TwigMiddlewareFactory::class,
+            //AuthenticationMiddleware::class   => AuthenticationMiddlewareFactory::class,
 
             Zend\Stratigility\Middleware\ErrorHandler::class => Container\ErrorHandlerFactory::class,
             Middleware\ErrorResponseGenerator::class         => Container\ErrorResponseGeneratorFactory::class,
             Middleware\NotFoundHandler::class                => Container\NotFoundHandlerFactory::class,
 
-            Doctrine\Common\Cache\Cache::class => \App\Infrastructure\Service\Doctrine\DoctrineArrayCacheFactory::class,
-            Doctrine\ORM\EntityManager::class  => \App\Infrastructure\Service\Doctrine\DoctrineFactory::class,
+            Doctrine\Common\Cache\Cache::class => DoctrineArrayCacheFactory::class,
+            Doctrine\ORM\EntityManager::class  => DoctrineFactory::class,
             CustomerRepositoryInterface::class => CustomerRepositoryFactory::class,
+            UserRepositoryInterface::class => UserRepositoryFactory::class,
             'doctrine:fixtures_cmd:load'   => \CodeEdu\FixtureFactory::class,
+            //AuthInterface::class => AuthServiceFactory::class
+            Zend\Expressive\Authentication\AuthenticationInterface::class => Zend\Expressive\Authentication\Session\PhpSessionFactory::class,
         ],
     ],
 ];

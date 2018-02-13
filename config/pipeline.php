@@ -43,6 +43,7 @@ $app->pipe(ImplicitHeadMiddleware::class);
 $app->pipe(ImplicitOptionsMiddleware::class);
 $app->pipe(UrlHelperMiddleware::class);
 $app->pipe(TwigMiddleware::class);
+//$app->pipe(\App\Application\Middleware\AuthenticationMiddleware::class);
 
 // Add more middleware here that needs to introspect the routing results; this
 // might include:
@@ -51,6 +52,7 @@ $app->pipe(TwigMiddleware::class);
 // - route-based validation
 // - etc.
 
+//$app->pipe(\Zend\Expressive\Authentication\AuthenticationMiddleware::class);
 $app->pipe(\Zend\Expressive\Flash\FlashMessageMiddleware::class);
 // Register the dispatch middleware in the middleware pipeline
 $app->pipeDispatchMiddleware();

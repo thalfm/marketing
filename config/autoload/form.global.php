@@ -13,7 +13,8 @@ $forms = [
         ],
         'factories'  => [
             \Zend\View\HelperPluginManager::class => \App\Infrastructure\View\HelperPluginManegerFactory::class,
-            \App\Application\Form\CustomerForm::class => \App\Application\Form\Factory\CustomerFormFactory::class
+            \App\Application\Form\CustomerForm::class => \App\Application\Form\Factory\CustomerFormFactory::class,
+            \App\Application\Form\LoginForm::class => \App\Application\Form\Factory\LoginFormFactory::class,
         ],
     ],
     'view_helpers' => [
