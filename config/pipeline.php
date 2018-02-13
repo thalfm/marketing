@@ -36,6 +36,7 @@ $app->pipe(SessionMiddleware::class);
 // - $app->pipe('/api', $apiMiddleware);
 // - $app->pipe('/docs', $apiDocMiddleware);
 // - $app->pipe('/files', $filesMiddleware);
+$app->pipe('/admin', \Zend\Expressive\Authentication\AuthenticationMiddleware::class);
 
 // Register the routing middleware in the middleware pipeline
 $app->pipeRoutingMiddleware();
@@ -43,7 +44,6 @@ $app->pipe(ImplicitHeadMiddleware::class);
 $app->pipe(ImplicitOptionsMiddleware::class);
 $app->pipe(UrlHelperMiddleware::class);
 $app->pipe(TwigMiddleware::class);
-//$app->pipe(\App\Application\Middleware\AuthenticationMiddleware::class);
 
 // Add more middleware here that needs to introspect the routing results; this
 // might include:
