@@ -1,0 +1,11 @@
+{% set name = form.get('name') %}
+
+
+<div class="box-body">
+    {% set message =  formElementErrors(name,{class: 'help-block'}) %}
+    <div class="form-group" {{ message ? 'has-error' }}">
+        {{ formLabel(name) }}
+        {{ formElement(name) }}
+        {{ message | raw }}
+    </div>
+</div>

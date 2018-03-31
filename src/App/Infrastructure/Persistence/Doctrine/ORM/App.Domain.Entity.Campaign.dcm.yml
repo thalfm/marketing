@@ -1,0 +1,23 @@
+#App.Domain.Entity.Customer.dcm.yml
+App\Domain\Entity\Campaign:
+  type: entity
+  repositoryClass: App\Infrastructure\Persistence\Doctrine\Repository\CampaignRepository
+  table: campaigns
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    name:
+        type: string
+        length: 200
+    subject:
+        type: string
+        length: 200
+    template:
+        type: text
+  manyToMany:
+      tags:
+        targetEntity: App\Domain\Entity\Tag
+        mappedBy: campaigns

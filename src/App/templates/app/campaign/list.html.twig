@@ -1,0 +1,41 @@
+{% extends '@layout/default.html.twig' %} {# para concatenar no twig usa o ~ #}
+{% block title %}Listagem de campanhas - {{ parent() }}{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="box">
+            <div class="box-header">
+                <a href="{{ url('campaign.create') }}" class="btn btn-app">
+                    <i class="fa fa-plus-circle"></i> Novo
+                </a>
+            </div>
+            <div class="box-body">
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th style="width: 10px;">#</th>
+                            <th style="width: 20%">Nome</th>
+                            <th>Assunto</th>
+                            <th>Ações</th>
+                        </tr>
+                        {% for campaign in campaigns %}
+                            <tr>
+                                <td>{{ campaign.id }}</td>
+                                <td>{{ campaign.name }}</td>
+                                <td>{{ campaign.subject | slice(0,20) }}...</td>
+                                <td>
+                                    <a href="{{ url('campaign.sender',{id: campaign.id}) }}">Enviar</a> |
+                                    <a href="{{ url('campaign.update',{id: campaign.id}) }}">Editar</a> |
+                                    <a href="{{ url('campaign.delete',{id: campaign.id}) }}">Excluir</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block page_header %}
+    Listagem de Campanhas
+{% endblock %}

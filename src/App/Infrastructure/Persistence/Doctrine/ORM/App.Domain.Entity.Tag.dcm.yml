@@ -1,0 +1,22 @@
+#App.Domain.Entity.Tag.dcm.yml
+App\Domain\Entity\Tag:
+  type: entity
+  repositoryClass: App\Infrastructure\Persistence\Doctrine\Repository\TagRepository
+  table: tags
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    name:
+        type: string
+        length: 200
+  manyToMany:
+    customers:
+      targetEntity: App\Domain\Entity\Customer
+      inversedBy: tags
+    campaigns:
+      targetEntity: App\Domain\Entity\Campaign
+      inversedBy: tags
+

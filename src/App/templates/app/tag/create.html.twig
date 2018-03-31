@@ -1,0 +1,29 @@
+{% extends '@layout/default.html.twig' %} {# para concatenar no twig usa o ~ #}
+{% block title %}Nova Tag - {{ parent() }}{% endblock %}
+{% block content %}
+    {% include '@app/tag/_form-elements.html.twig' %}
+
+    {% set submit = form.get('submit') %}
+    {% do submit.setAttribute('class','btn btn-primary').setLabel('Incluir') %}
+
+    {% do form.setAttribute('action', url('tag.create')) %}
+    {% do form.prepare() %}
+    <div class="row">
+        <div class="col-md-8">
+            <div class="box box-primary">
+                <div class="box-body">
+                   {{ form().openTag(form) | raw}}
+                    {% include '@app/tag/_form.html.twig' %}
+                    <div class="box-footer">
+                        {{ formButton(submit) }}
+                    </div>
+                   {{ form().closeTag()| raw}}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block page_header %}
+    Nova Tag
+{% endblock %}

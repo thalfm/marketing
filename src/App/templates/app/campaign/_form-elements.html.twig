@@ -1,0 +1,11 @@
+    {% set name = form.get('name') %}
+    {% do name.setAttribute('class','form-control') %}
+
+    {% set subject = form.get('subject') %}
+    {% do subject.setAttribute('class','form-control') %}
+
+    {% set template = form.get('template') %}
+    {% do template.setAttribute('class','form-control') %}
+
+    {% set tags = form.get('tags') %}
+    {% do tags.setAttribute('class','form-control') %}

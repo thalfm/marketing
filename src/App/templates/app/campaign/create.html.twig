@@ -1,0 +1,46 @@
+{% extends '@layout/default.html.twig' %} {# para concatenar no twig usa o ~ #}
+{% block title %}Nova Campanha - {{ parent() }}{% endblock %}
+{% block content %}
+    {% include '@app/campaign/_form-elements.html.twig' %}
+
+    {% set submit = form.get('submit') %}
+    {% do submit.setAttribute('class','btn btn-primary').setLabel('Incluir') %}
+
+    {% do form.setAttribute('action', url('campaign.create')) %}
+    {% do form.prepare() %}
+    <div class="row">
+        <div class="col-md-8">
+            <div class="box box-primary">
+                <div class="box-body">
+                   {{ form().openTag(form) | raw}}
+                    {% include '@app/campaign/_form.html.twig' %}
+                    <div class="box-footer">
+                        {{ formButton(submit) }}
+                    </div>
+                   {{ form().closeTag()| raw}}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block page_header %}
+    Nova Campanha
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript">
+        tinymce.init({
+            selector:'textarea',
+            plugins: [
+                'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+                'searchreplace wordcount visualblocks visualchars code fullscreen',
+                'insertdatetime media nonbreaking save table contextmenu directionality',
+                'emoticons template paste textcolor colorpicker textpattern imagetools'
+            ],
+            toolbar1: 'bold italic | fontselect |  fontsizeselect | print preview media | forecolor backcolor emoticons',
+            toolbar2: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+            height: 500,
+        });
+    </script>
+{% endblock %}

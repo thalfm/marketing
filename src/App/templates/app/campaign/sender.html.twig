@@ -1,0 +1,41 @@
+{% extends '@layout/default.html.twig' %} {# para concatenar no twig usa o ~ #}
+{% block title %}Envio de Campanha - {{ parent() }}{% endblock %}
+{% block content %}
+    {% include '@app/campaign/_form-elements.html.twig' %}
+
+    {% set submit = form.get('submit') %}
+    {% do submit.setAttribute('class','btn btn-primary').setLabel('Enviar') %}
+
+    {% do form.setAttribute('action', url('campaign.sender', {id: form.getObject().id})) %}
+    {% do form.prepare() %}
+    <div class="row">
+        <div class="col-md-8">
+            <div class="box box-success">
+                <div class="box-body">
+                    <fieldset disabled>
+                        {% include '@app/campaign/_form.html.twig' %}
+                    </fieldset>
+                    {{ form().openTag(form) | raw}}
+                    <div class="box-footer">
+                        {{ formButton(submit) }}
+                    </div>
+                    {{ form().closeTag()| raw}}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block page_header %}
+    Envio de Campanha - {{ form.getObject().name }}
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript">
+        tinymce.init({
+            selector:'textarea',
+            readonly: 1,
+            height: 500,
+        });
+    </script>
+{% endblock %}
