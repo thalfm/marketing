@@ -2,6 +2,15 @@
 
 namespace App;
 
+use App\Application\Action\Campaign\CampaignCreatePageAction;
+use App\Application\Action\Campaign\CampaignDeletePageAction;
+use App\Application\Action\Campaign\CampaignListPageAction;
+use App\Application\Action\Campaign\CampaignSenderPageAction;
+use App\Application\Action\Campaign\CampaignUpdatePageAction;
+use App\Application\Action\Campaign\Factory\CampaignCreatePageFactory;
+use App\Application\Action\Campaign\Factory\CampaignDeletePageFactory;
+use App\Application\Action\Campaign\Factory\CampaignListPageFactory;
+use App\Application\Action\Campaign\Factory\CampaignUpdatePageFactory;
 use App\Application\Action\Customer\CustomerCreatePageAction;
 use App\Application\Action\Customer\CustomerDeletePageAction;
 use App\Application\Action\Customer\CustomerListPageAction;
@@ -16,6 +25,14 @@ use App\Application\Action\LoginPageHandle;
 use App\Application\Action\LoginPageFactory;
 use App\Application\Action\LogoutHandle;
 use App\Application\Action\LogoutFactory;
+use App\Application\Action\Tag\Factory\TagCreatePageFactory;
+use App\Application\Action\Tag\Factory\TagDeletePageFactory;
+use App\Application\Action\Tag\Factory\TagListPageFactory;
+use App\Application\Action\Tag\Factory\TagUpdatePageFactory;
+use App\Application\Action\Tag\TagCreatePageAction;
+use App\Application\Action\Tag\TagDeletePageAction;
+use App\Application\Action\Tag\TagListPageAction;
+use App\Application\Action\Tag\TagUpdatePageAction;
 use App\Application\Action\TestePageAction;
 use App\Application\Action\TestePageFactory;
 
@@ -57,10 +74,23 @@ class ConfigProvider
             'factories' => [
                 HomePageAction::class => HomePageFactory::class,
                 TestePageAction::class => TestePageFactory::class,
+
                 CustomerListPageAction::class => CustomerListPageFactory::class,
                 CustomerCreatePageAction::class => CustomerCreatePageFactory::class,
                 CustomerUpdatePageAction::class => CustomerUpdatePageFactory::class,
                 CustomerDeletePageAction::class => CustomerDeletePageFactory::class,
+
+                TagListPageAction::class => TagListPageFactory::class,
+                TagCreatePageAction::class => TagCreatePageFactory::class,
+                TagUpdatePageAction::class => TagUpdatePageFactory::class,
+                TagDeletePageAction::class => TagDeletePageFactory::class,
+
+                CampaignListPageAction::class => CampaignListPageFactory::class,
+                CampaignCreatePageAction::class => CampaignCreatePageFactory::class,
+                CampaignUpdatePageAction::class => CampaignUpdatePageFactory::class,
+                CampaignDeletePageAction::class => CampaignDeletePageFactory::class,
+                CampaignSenderPageAction::class => CampaignSenderPageAction::class,
+
                 LoginPageHandle::class=> LoginPageFactory::class,
                 LogoutHandle::class => LogoutFactory::class,
             ],

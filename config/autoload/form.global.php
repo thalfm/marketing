@@ -14,6 +14,8 @@ $forms = [
         'factories'  => [
             \Zend\View\HelperPluginManager::class => \App\Infrastructure\View\HelperPluginManegerFactory::class,
             \App\Application\Form\CustomerForm::class => \App\Application\Form\Factory\CustomerFormFactory::class,
+            \App\Application\Form\TagForm::class =>\App\Application\Form\Factory\TagFormFactory::class,
+            \App\Application\Form\CampaignForm::class => \App\Application\Form\Factory\CampaignFormFactory::class,
             \App\Application\Form\LoginForm::class => \App\Application\Form\Factory\LoginFormFactory::class,
         ],
     ],
@@ -23,6 +25,7 @@ $forms = [
         'invokables' => [
         ],
         'factories'  => [
+            'identity' => ''
         ],
     ]
 ];

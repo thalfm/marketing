@@ -2,12 +2,20 @@
 
 use App\Application\Middleware\TwigMiddleware;
 use App\Application\Middleware\TwigMiddlewareFactory;
+use App\Domain\Persistence\CampaignRepositoryInterface;
 use App\Domain\Persistence\CustomerRepositoryInterface;
+use App\Domain\Persistence\TagRepositoryInterface;
 use App\Domain\Persistence\UserRepositoryInterface;
+use App\Domain\Service\CampaignEmailSenderInterface;
+use App\Infrastructure\Persistence\Doctrine\Repository\CampaignRepositoryFactory;
 use App\Infrastructure\Persistence\Doctrine\Repository\CustomerRepositoryFactory;
+use App\Infrastructure\Persistence\Doctrine\Repository\TagRepositoryFactory;
 use App\Infrastructure\Persistence\Doctrine\Repository\UserRepositoryFactory;
+use App\Infrastructure\Service\CampaignEmailSenderFactory;
 use App\Infrastructure\Service\Doctrine\DoctrineArrayCacheFactory;
 use App\Infrastructure\Service\Doctrine\DoctrineFactory;
+use App\Infrastructure\Service\MailgunFactory;
+use Mailgun\Mailgun;
 use Zend\Expressive\Application;
 use Zend\Expressive\Container;
 use Zend\Expressive\Delegate;
@@ -43,6 +51,9 @@ return [
             Helper\UrlHelper::class           => Helper\UrlHelperFactory::class,
             Helper\UrlHelperMiddleware::class => Helper\UrlHelperMiddlewareFactory::class,
             TwigMiddleware::class             => TwigMiddlewareFactory::class,
+
+            Mailgun::class => MailgunFactory::class,
+            CampaignEmailSenderInterface::class => CampaignEmailSenderFactory::class,
             //AuthenticationMiddleware::class   => AuthenticationMiddlewareFactory::class,
 
             Zend\Stratigility\Middleware\ErrorHandler::class => Container\ErrorHandlerFactory::class,
@@ -52,6 +63,8 @@ return [
             Doctrine\Common\Cache\Cache::class => DoctrineArrayCacheFactory::class,
             Doctrine\ORM\EntityManager::class  => DoctrineFactory::class,
             CustomerRepositoryInterface::class => CustomerRepositoryFactory::class,
+            TagRepositoryInterface::class => TagRepositoryFactory::class,
+            CampaignRepositoryInterface::class => CampaignRepositoryFactory::class,
             UserRepositoryInterface::class => UserRepositoryFactory::class,
             'doctrine:fixtures_cmd:load'   => \CodeEdu\FixtureFactory::class,
             //AuthInterface::class => AuthServiceFactory::class

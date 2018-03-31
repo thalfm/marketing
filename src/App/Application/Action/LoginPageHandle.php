@@ -3,7 +3,6 @@
 namespace App\Application\Action;
 
 use App\Application\Form\LoginForm;
-use App\Domain\Service\AuthInterface;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -24,10 +23,6 @@ class LoginPageHandle implements MiddlewareInterface
      * @var LoginForm
      */
     private $form;
-    /**
-     * @var AuthInterface
-     */
-    private $authService;
 
     public function __construct(
         Router\RouterInterface $router,

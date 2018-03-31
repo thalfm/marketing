@@ -12,9 +12,11 @@ $cacheConfig = [
 
 $aggregator = new ConfigAggregator([
     //\Zend\Session\ConfigProvider::class,
+    \Zend\Expressive\ConfigProvider::class,
+    \Zend\Expressive\Router\ConfigProvider::class,
     \Zend\Expressive\Authentication\ConfigProvider::class,
     \Zend\Expressive\Authentication\Session\ConfigProvider::class,
-    \Zend\Router\ConfigProvider::class,
+
     \Zend\I18n\ConfigProvider::class,
     \Zend\Form\ConfigProvider::class,
     \Zend\InputFilter\ConfigProvider::class,
