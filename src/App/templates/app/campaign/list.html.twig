@@ -25,7 +25,8 @@
                                 <td>
                                     <a href="{{ url('campaign.sender',{id: campaign.id}) }}">Enviar</a> |
                                     <a href="{{ url('campaign.update',{id: campaign.id}) }}">Editar</a> |
-                                    <a href="{{ url('campaign.delete',{id: campaign.id}) }}">Excluir</a>
+                                    <a href="{{ url('campaign.delete',{id: campaign.id}) }}">Excluir</a> |
+                                    <a href="{{ url('campaign.report',{id: campaign.id}) }}">Relatório</a>
                                 </td>
                             </tr>
                         {% endfor %}

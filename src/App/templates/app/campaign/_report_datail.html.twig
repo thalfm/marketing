@@ -1,0 +1,97 @@
+{% block content %}
+    {% set percentClicked = (campaign_data.clicked_count / campaign_data.opened_count) * 100 %}
+    {% set percentOpened = (opened_distinct_count / campaign_data.delivered_count) * 100 %}
+    <div class="row">
+        <div class="box">
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-aqua">
+                                <i class="fa fa-envelope-o"></i>
+                            </span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Destinatários</span>
+                                <span class="info-box-number">{{ customers_count }}</span>
+                                <span class="info-box-text">Lista</span>
+                                <span class="info-box-number">{{ campaign.name }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-green">
+                                <i class="fa fa-pencil-square-o"></i>
+                            </span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Criado em:</span>
+                                <span class="info-box-number">{{ campaign_data.created_at | date('d/m/Y')  }}</span>
+                                <span class="info-box-text">Ações</span>
+                                <span class="info-box-number">
+                                    <a href="{{ url('campaign.sender',{id: campaign.id}) }}">Visualizar e-mail</a> |
+                                    <a href="{{ url('campaign.print',{id: campaign.id}) }}"">Imprimir</a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="info-box bg-aqua">
+                            <span class="info-box-icon"><i class="fa fa-folder-open-o"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Taxa de abertura</span>
+                                <span class="info-box-number">{{ percentOpened | number_format(0) }}%</span>
+
+                                <div class="progress">
+                                    <div style="width: {{ percentOpened | number_format(0) }}%" class="progress-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-box bg-green">
+                            <span class="info-box-icon"><i class="fa fa-anchor"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Taxa de cliques</span>
+                                <span class="info-box-number">{{ percentClicked | number_format(0) }}%</span>
+
+                                <div class="progress">
+                                    <div style="width: {{ percentClicked | number_format(0) }}%" class="progress-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <table class="table table-bordered">
+                        <tbody>
+                        <tr>
+                            <td>
+                                <h3>Aberturas</h3>
+                                <p>{{ campaign_data.opened_count }}</p>
+                            </td>
+                            <td>
+                                <h3>Cliques</h3>
+                                <p>{{ campaign_data.clicked_count }}</p>
+                            </td>
+                            <td>
+                                <h3>Não abriram</h3>
+                                <p>{{ campaign_data.delivered_count - opened_distinct_count }}</p>
+                            </td>
+                            <td>
+                                <h3>Unsubscribed</h3>
+                                <p>{{ campaign_data.unsubscribed_count }}</p>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

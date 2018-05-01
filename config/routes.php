@@ -44,7 +44,9 @@ $app->get('/admin/campaigns', \App\Application\Action\Campaign\CampaignListPageA
 $app->route('/admin/campaign/create', \App\Application\Action\Campaign\CampaignCreatePageAction::class, ['GET', 'POST'], 'campaign.create');
 $app->route('/admin/campaign/update/{id}', \App\Application\Action\Campaign\CampaignUpdatePageAction::class, ['GET', 'POST', 'PUT'], 'campaign.update');
 $app->route('/admin/campaign/delete/{id}', \App\Application\Action\Campaign\CampaignDeletePageAction::class, ['GET', 'POST', 'DELETE'], 'campaign.delete');
-$app->route('/admin/campaign/sender', \App\Application\Action\Campaign\CampaignSenderPageAction::class, ['GET', 'POST'], 'campaign.sender');
+$app->route('/admin/campaign/sender/{id}', \App\Application\Action\Campaign\CampaignSenderPageAction::class, ['GET', 'POST'], 'campaign.sender');
+$app->route('/admin/campaign/report/{id}', \App\Application\Action\Campaign\CampaignReportPageAction::class, ['GET'], 'campaign.report');
+$app->route('/admin/campaign/print/{id}', \App\Application\Action\Campaign\CampaignPrintPageAction::class, ['GET'], 'campaign.print');
 
 
 /** Login */

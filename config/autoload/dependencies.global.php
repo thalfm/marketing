@@ -7,11 +7,13 @@ use App\Domain\Persistence\CustomerRepositoryInterface;
 use App\Domain\Persistence\TagRepositoryInterface;
 use App\Domain\Persistence\UserRepositoryInterface;
 use App\Domain\Service\CampaignEmailSenderInterface;
+use App\Domain\Service\CampaignReportInterface;
 use App\Infrastructure\Persistence\Doctrine\Repository\CampaignRepositoryFactory;
 use App\Infrastructure\Persistence\Doctrine\Repository\CustomerRepositoryFactory;
 use App\Infrastructure\Persistence\Doctrine\Repository\TagRepositoryFactory;
 use App\Infrastructure\Persistence\Doctrine\Repository\UserRepositoryFactory;
 use App\Infrastructure\Service\CampaignEmailSenderFactory;
+use App\Infrastructure\Service\CampaignReportFactory;
 use App\Infrastructure\Service\Doctrine\DoctrineArrayCacheFactory;
 use App\Infrastructure\Service\Doctrine\DoctrineFactory;
 use App\Infrastructure\Service\MailgunFactory;
@@ -69,6 +71,7 @@ return [
             'doctrine:fixtures_cmd:load'   => \CodeEdu\FixtureFactory::class,
             //AuthInterface::class => AuthServiceFactory::class
             Zend\Expressive\Authentication\AuthenticationInterface::class => Zend\Expressive\Authentication\Session\PhpSessionFactory::class,
+            CampaignReportInterface::class => CampaignReportFactory::class
         ],
     ],
 ];

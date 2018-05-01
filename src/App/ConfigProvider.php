@@ -5,11 +5,16 @@ namespace App;
 use App\Application\Action\Campaign\CampaignCreatePageAction;
 use App\Application\Action\Campaign\CampaignDeletePageAction;
 use App\Application\Action\Campaign\CampaignListPageAction;
+use App\Application\Action\Campaign\CampaignPrintPageAction;
+use App\Application\Action\Campaign\CampaignReportPageAction;
 use App\Application\Action\Campaign\CampaignSenderPageAction;
 use App\Application\Action\Campaign\CampaignUpdatePageAction;
 use App\Application\Action\Campaign\Factory\CampaignCreatePageFactory;
 use App\Application\Action\Campaign\Factory\CampaignDeletePageFactory;
 use App\Application\Action\Campaign\Factory\CampaignListPageFactory;
+use App\Application\Action\Campaign\Factory\CampaignPrintPageFactory;
+use App\Application\Action\Campaign\Factory\CampaignReportPageFactory;
+use App\Application\Action\Campaign\Factory\CampaignSenderPageFactory;
 use App\Application\Action\Campaign\Factory\CampaignUpdatePageFactory;
 use App\Application\Action\Customer\CustomerCreatePageAction;
 use App\Application\Action\Customer\CustomerDeletePageAction;
@@ -35,6 +40,7 @@ use App\Application\Action\Tag\TagListPageAction;
 use App\Application\Action\Tag\TagUpdatePageAction;
 use App\Application\Action\TestePageAction;
 use App\Application\Action\TestePageFactory;
+use App\Domain\Service\CampaignReportInterface;
 
 /**
  * The configuration provider for the App module
@@ -68,12 +74,9 @@ class ConfigProvider
     {
         return [
             'invokables' => [
-                Application\Action\PingAction::class => Application\Action\PingAction::class,
                 \Zend\Expressive\Flash\FlashMessageMiddleware::class => \Zend\Expressive\Flash\FlashMessageMiddleware::class,
             ],
             'factories' => [
-                HomePageAction::class => HomePageFactory::class,
-                TestePageAction::class => TestePageFactory::class,
 
                 CustomerListPageAction::class => CustomerListPageFactory::class,
                 CustomerCreatePageAction::class => CustomerCreatePageFactory::class,
@@ -89,7 +92,9 @@ class ConfigProvider
                 CampaignCreatePageAction::class => CampaignCreatePageFactory::class,
                 CampaignUpdatePageAction::class => CampaignUpdatePageFactory::class,
                 CampaignDeletePageAction::class => CampaignDeletePageFactory::class,
-                CampaignSenderPageAction::class => CampaignSenderPageAction::class,
+                CampaignSenderPageAction::class => CampaignSenderPageFactory::class,
+                CampaignReportPageAction::class => CampaignReportPageFactory::class,
+                CampaignPrintPageAction::class => CampaignPrintPageFactory::class,
 
                 LoginPageHandle::class=> LoginPageFactory::class,
                 LogoutHandle::class => LogoutFactory::class,
