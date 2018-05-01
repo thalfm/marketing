@@ -26,9 +26,6 @@
  * );
  */
 /** @var \Zend\Expressive\Application $app */
-$app->get('/', \App\Application\Action\HomePageAction::class, 'home');
-$app->get('/teste', \App\Application\Action\TestePageAction::class, 'teste');
-$app->get('/api/ping', \App\Application\Action\PingAction::class, 'api.ping');
 
 /** Custumer */
 $app->get('/admin/customers', \App\Application\Action\Customer\CustomerListPageAction::class, 'customer.list');

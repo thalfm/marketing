@@ -3,6 +3,7 @@
 namespace App\Application\Action\Campaign;
 
 use App\Application\Form\CampaignForm;
+use App\Domain\Entity\Campaign;
 use Zend\Diactoros\Response\RedirectResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -15,52 +16,31 @@ use Zend\Expressive\Template\TemplateRendererInterface;
 use App\Application\Form\HttpMethodElement;
 
 
-class CampaignDeletePageAction
+class CampaignDeletePageAction extends CampaignAbstractAction
 {
-    private $template;
-    /**
-     * @var CampaignRepositoryInterface
-     */
-    private $repository;
-    /**
-     * @var RouterInterface
-     */
-    private $router;
-    /**
-     * @var CampaignForm
-     */
-    private $form;
-
-
-    public function __construct(
-        CampaignRepositoryInterface $repository,
-        TemplateRendererInterface $template,
-        RouterInterface $router,
-        CampaignForm $form
-    ){
-        $this->template = $template;
-        $this->repository = $repository;
-        $this->router = $router;
-        $this->form = $form;
-    }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next = null)
     {
-        $id = $request->getAttribute('id');
-        $entity = $this->repository->find($id);
-        $this->form->add(new HttpMethodElement('DELETE'));
-        $this->form->bind($entity);
-        if($request->getMethod() == 'DELETE'){
-            $this->repository->remove($entity);
-            /** @var FlashMessagesInterface $flashMessage */
-            $flashMessage = $request->getAttribute(FlashMessageMiddleware::FLASH_ATTRIBUTE);
-            $flashMessage->flash('success','Campanha deletada com sucesso');
-            $uri = $this->router->generateUri('campaign.list');
-            return new RedirectResponse($uri);
-        }
-        return new HtmlResponse($this->template->render("app::campaign/delete",[
-            'form' => $this->form
-        ]));
+        $entity = $this->getEntityBy($request);
+        $this->bindFormBy($entity, new HttpMethodElement('DELETE'));
 
+        if (!$this->verifyMethod($request, ['POST', 'DELETE'])) {
+            return $this->formResponse('campaign/delete');
+        }
+
+        $this->formPersiste($entity);
+        $this->messageSuccess($request, self::MSG_DELETE_SUCCESS);
+
+        return $this->redirectPost('campaign.list');
+    }
+
+    /**
+     * @return bool
+     */
+    protected function formPersiste(Campaign $campaign): bool
+    {
+        $this->getRepository()->remove($campaign);
+
+        return true;
     }
 }
