@@ -22,45 +22,8 @@ use Zend\Expressive\Flash\FlashMessagesInterface;
 use Zend\Expressive\Router\RouterInterface;
 use Zend\Expressive\Template\TemplateRendererInterface;
 
-class CustomerDeletePageAction
+class CustomerDeletePageAction extends CustomerAbstractAction
 {
-    private $router;
-
-    private $template;
-    /**
-     * @var CustomerRepositoryInterface
-     */
-    private $repository;
-    /**
-     * @var CustomerForm
-     */
-    private $customerForm;
-
-    /**
-     * @var Customer
-     */
-    private $entity;
-
-    /**
-     * CustomerDeletePageAction constructor.
-     * @param CustomerRepositoryInterface $repository
-     * @param RouterInterface $router
-     * @param TemplateRendererInterface|null $template
-     * @param CustomerForm $customerForm
-     */
-    public function __construct(
-        CustomerRepositoryInterface $repository,
-        RouterInterface $router,
-        TemplateRendererInterface $template = null,
-        CustomerForm $customerForm
-    )
-    {
-        $this->router = $router;
-        $this->template = $template;
-        $this->repository = $repository;
-        $this->customerForm = $customerForm;
-    }
-
     /**
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
@@ -69,48 +32,26 @@ class CustomerDeletePageAction
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next = null)
     {
-        $this->getCustomerBy($request);
-        return $this->customerDelete($request);
-    }
+        $entity = $this->getEntityBy($request);
+        $this->bindFormBy($entity, new HttpMethodElement('DELETE'));
 
-    /**
-     * @param ServerRequestInterface $request
-     */
-    private function getCustomerBy(ServerRequestInterface $request)
-    {
-        $id = $request->getAttribute('id');
-        $this->entity = $this->repository->find($id);
-        $this->customerForm->add(new HttpMethodElement('DELETE'));
-        $this->customerForm->bind($this->entity);
-    }
-
-    /**
-     * @return HtmlResponse
-     */
-    private function formDeleteResponse()
-    {
-        return new HtmlResponse($this->template->render("app::customer/delete", [
-            'form' => $this->customerForm
-        ]));
-    }
-
-    /**
-     * @param ServerRequestInterface $request
-     * @return HtmlResponse|RedirectResponse
-     */
-    private function customerDelete(ServerRequestInterface $request)
-    {
-        if ($request->getMethod() != 'DELETE' && $request->getMethod() != 'POST') {
-            return $this->formDeleteResponse();
+        if (!$this->verifyMethod($request, ['POST', 'DELETE'])) {
+            return $this->formResponse('customer/delete');
         }
 
-        $this->repository->remove($this->entity);
+        $this->formPersiste($entity);
+        $this->messageSuccess($request, self::MSG_DELETE_SUCCESS);
 
-        /** @var FlashMessagesInterface $flashMessage */
-        $flashMessage = $request->getAttribute(FlashMessageMiddleware::FLASH_ATTRIBUTE);
-        $flashMessage->flash('success', 'Contato removido com sucesso!');
+        return $this->redirectPost('customer.list');
+    }
 
-        $uri = $this->router->generateUri('customer.list');
-        return new RedirectResponse($uri);
+    /**
+     * @return bool
+     */
+    protected function formPersiste(Customer $customer): bool
+    {
+        $this->getRepository()->remove($customer);
+
+        return true;
     }
 }

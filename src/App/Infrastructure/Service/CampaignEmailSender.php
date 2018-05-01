@@ -3,12 +3,17 @@
 namespace App\Infrastructure\Service;
 
 use App\Domain\Entity\Campaign;
+use App\Domain\Entity\Customer;
+use App\Domain\Entity\Tag;
 use App\Domain\Service\CampaignEmailSenderInterface;
 use Mailgun\Mailgun;
 use Zend\Expressive\Template\TemplateRendererInterface;
 
 class CampaignEmailSender implements CampaignEmailSenderInterface
 {
+    /**
+     * @var Campaign
+     */
     private $campaign;
     private $templateRenderer;
     private $mailGunConfig;
@@ -33,9 +38,11 @@ class CampaignEmailSender implements CampaignEmailSenderInterface
     {
         $tags = $this->campaign->getTags()->toArray();
         $batchMessage = $this->getBatchMessage();
+        /** @var Tag $tag */
         foreach ($tags as $tag){
             $batchMessage->addTag($tag->getName());
             $customers = $tag->getCustomers()->toArray();
+            /** @var Customer $customer */
             foreach ($customers as $customer){
                 $name = (!$customer->getName() or $customer->getName() == '')? $customer->getEmail(): $customer->getName();
                 $batchMessage->addToRecipient($customer->getEmail(), ['full_name' => $customer->getName()]);
@@ -48,7 +55,7 @@ class CampaignEmailSender implements CampaignEmailSenderInterface
     {
         $batchMessage = $this->mailgun->BatchMessage($this->mailGunConfig['domain']);
         $batchMessage->addCampaignId("campaign_{$this->campaign->getId()}");//permite no max 3 campanhas
-        $batchMessage->setFromAddress('rogeriodesouzaantonio@gmail.com', ['full_name' => 'Rsa']);
+        $batchMessage->setFromAddress('thalfm@gmail.com', ['full_name' => 'Rsa']);
         $batchMessage->setSubject($this->campaign->getSubject());
         $batchMessage->setHtmlBody($this->getHtmlBody());
         //$batchMessage->setTextBody('string'); //só para textos

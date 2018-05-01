@@ -3,6 +3,7 @@
 namespace App\Application\Action\Tag;
 
 use App\Application\Form\TagForm;
+use App\Domain\Entity\Tag;
 use Zend\Diactoros\Response\RedirectResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -13,59 +14,50 @@ use Zend\Expressive\Router\RouterInterface;
 use App\Domain\Persistence\TagRepositoryInterface;
 use Zend\Expressive\Template\TemplateRendererInterface;
 use App\Application\Form\HttpMethodElement;
+use Zend\Form\Form;
 
 
-class TagUpdatePageAction
+class TagUpdatePageAction extends TagAbstractAction
 {
-    private $template;
-    /**
-     * @var TagRepositoryInterface
-     */
-    private $repository;
-    /**
-     * @var RouterInterface
-     */
-    private $router;
-    /**
-     * @var tagForm
-     */
-    private $form;
 
 
-    public function __construct(
-        TagRepositoryInterface $repository,
-        TemplateRendererInterface $template,
-        RouterInterface $router,
-        TagForm $form
-    ){
-        $this->template = $template;
-        $this->repository = $repository;
-        $this->router = $router;
-        $this->form = $form;
-    }
-
+    /**
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param callable|null $next
+     * @return HtmlResponse|RedirectResponse
+     */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next = null)
     {
-        $id = $request->getAttribute('id');
-        $entity = $this->repository->find($id);
-        $this->form->add(new HttpMethodElement('PUT'));
-        $this->form->bind($entity);
-        if($request->getMethod() == 'PUT'){
-            $dataRaw = $request->getParsedBody();
-            $this->form->setData($dataRaw);
-            if($this->form->isValid()){
-                $entity = $this->form->getData();
-                $this->repository->update($entity);
-                /** @var FlashMessagesInterface $flashMessage */
-                $flashMessage = $request->getAttribute(FlashMessageMiddleware::FLASH_ATTRIBUTE);
-                $flashMessage->flash('success','Tag deletada com sucesso');
-                $uri = $this->router->generateUri('tag.list');
-                return new RedirectResponse($uri);
-            }
-        }
-        return new HtmlResponse($this->template->render("app::tag/update",[
-            'form' => $this->form
-        ]));
 
+        $entity = $this->getEntityBy($request);
+        $this->bindFormBy($entity, new HttpMethodElement('PUT'));
+
+        if (!$this->verifyMethod($request, ['POST', 'PUT'])) {
+            return $this->formResponse('tag/update');
+        }
+
+        $this->rawDataForm($request);
+        if (!$this->isFormValid($request)) {
+            return $this->formResponse('tag/update');
+        }
+
+        /** @var Tag $tag */
+        $tag = $this->getForm()->getData();
+        $this->formPersiste($tag);
+        $this->messageSuccess($request, self::MSG_UPDATE_SUCCESS);
+
+        return $this->redirectPost('tag.list');
+    }
+
+
+    /**
+     * @return bool
+     */
+    protected function formPersiste(Tag $tag): bool
+    {
+        $this->getRepository()->update($tag);
+
+        return true;
     }
 }

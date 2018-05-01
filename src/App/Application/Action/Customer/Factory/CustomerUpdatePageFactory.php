@@ -24,6 +24,6 @@ class CustomerUpdatePageFactory
         $repository = $container->get(CustomerRepositoryInterface::class);
         $customerForm = $container->get(CustomerForm::class);
 
-        return new CustomerUpdatePageAction($repository, $router, $template, $customerForm);
+        return new CustomerUpdatePageAction($repository, $template, $router, $customerForm);
     }
 }

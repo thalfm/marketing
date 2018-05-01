@@ -24,6 +24,6 @@ class CustomerCreatePageFactory
         $repository = $container->get(CustomerRepositoryInterface::class);
         $customerForm = $container->get(CustomerForm::class);
 
-        return new CustomerCreatePageAction($repository, $router, $template, $customerForm);
+        return new CustomerCreatePageAction($repository, $template, $router, $customerForm);
     }
 }

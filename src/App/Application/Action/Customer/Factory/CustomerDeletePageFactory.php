@@ -24,6 +24,6 @@ class CustomerDeletePageFactory
         $repository = $container->get(CustomerRepositoryInterface::class);
         $customerForm = $container->get(CustomerForm::class);
 
-        return new CustomerDeletePageAction($repository, $router, $template, $customerForm);
+        return new CustomerDeletePageAction($repository, $template, $router, $customerForm);
     }
 }

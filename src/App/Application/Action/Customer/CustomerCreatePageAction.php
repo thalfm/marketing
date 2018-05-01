@@ -22,39 +22,9 @@ use Zend\Expressive\Flash\FlashMessagesInterface;
 use Zend\Expressive\Router\RouterInterface;
 use Zend\Expressive\Template\TemplateRendererInterface;
 
-class CustomerCreatePageAction
+class CustomerCreatePageAction extends CustomerAbstractAction
 {
-    private $router;
 
-    private $template;
-    /**
-     * @var CustomerRepositoryInterface
-     */
-    private $repository;
-    /**
-     * @var CustomerForm
-     */
-    private $customerForm;
-
-    /**
-     * CustomerCreatePageAction constructor.
-     * @param CustomerRepositoryInterface $repository
-     * @param RouterInterface $router
-     * @param TemplateRendererInterface|null $template
-     * @param CustomerForm $customerForm
-     */
-    public function __construct(
-        CustomerRepositoryInterface $repository,
-        RouterInterface $router,
-        TemplateRendererInterface $template = null,
-        CustomerForm $customerForm
-    )
-    {
-        $this->router = $router;
-        $this->template = $template;
-        $this->repository = $repository;
-        $this->customerForm = $customerForm;
-    }
 
     /**
      * @param ServerRequestInterface $request
@@ -64,44 +34,30 @@ class CustomerCreatePageAction
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next = null)
     {
-        return $this->customerCreate($request);
+        if (!$this->verifyMethod($request, ['POST'])) {
+            return $this->formResponse('customer/create');
+        }
+
+        $this->rawDataForm($request);
+        if (!$this->isFormValid($request)) {
+            return $this->formResponse('customer/create');
+        }
+
+        /** @var Customer $customer */
+        $customer = $this->getForm()->getData();
+        $this->formPersiste($customer);
+        $this->messageSuccess($request, self::MSG_CREATE_SUCCESS);
+
+        return $this->redirectPost('customer.list');
     }
 
     /**
-     * @return HtmlResponse
+     * @return bool
      */
-    private function formCreateResponse()
+    protected function formPersiste(Customer $customer): bool
     {
-        return new HtmlResponse($this->template->render("app::customer/create", [
-            'form' => $this->customerForm
-        ]));
-    }
+        $this->getRepository()->create($customer);
 
-    /**
-     * @param ServerRequestInterface $request
-     * @return HtmlResponse|RedirectResponse
-     */
-    private function customerCreate(ServerRequestInterface $request)
-    {
-        if ($request->getMethod() != 'POST') {
-            return $this->formCreateResponse();
-        }
-
-        $dataRaw = $request->getParsedBody();
-        $this->customerForm->setData($dataRaw);
-
-        if (!$this->customerForm->isValid()) {
-            return $this->formCreateResponse();
-        }
-
-        $entity = $this->customerForm->getData();
-        $this->repository->create($entity);
-
-        /** @var FlashMessagesInterface $flashMessage */
-        $flashMessage = $request->getAttribute(FlashMessageMiddleware::FLASH_ATTRIBUTE);
-        $flashMessage->flash('success', 'Contato cadastrado com sucesso!');
-
-        $uri = $this->router->generateUri('customer.list');
-        return new RedirectResponse($uri);
+        return true;
     }
 }

@@ -23,39 +23,8 @@ use Zend\Expressive\Flash\FlashMessagesInterface;
 use Zend\Expressive\Router\RouterInterface;
 use Zend\Expressive\Template\TemplateRendererInterface;
 
-class CustomerUpdatePageAction
+class CustomerUpdatePageAction extends CustomerAbstractAction
 {
-    private $router;
-
-    private $template;
-    /**
-     * @var CustomerRepositoryInterface
-     */
-    private $repository;
-    /**
-     * @var CustomerForm
-     */
-    private $customerForm;
-
-    /**
-     * CustomerUpdatePageAction constructor.
-     * @param CustomerRepositoryInterface $repository
-     * @param RouterInterface $router
-     * @param TemplateRendererInterface $template
-     * @param CustomerForm $customerForm
-     */
-    public function __construct(
-        CustomerRepositoryInterface $repository,
-        RouterInterface $router,
-        TemplateRendererInterface $template,
-        CustomerForm $customerForm
-    )
-    {
-        $this->router = $router;
-        $this->template = $template;
-        $this->repository = $repository;
-        $this->customerForm = $customerForm;
-    }
 
     /**
      * @param ServerRequestInterface $request
@@ -65,57 +34,34 @@ class CustomerUpdatePageAction
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next = null)
     {
-        $this->getCustomerBy($request);
-        return $this->customerUpdate($request);
-    }
+        $entity = $this->getEntityBy($request);
+        $this->bindFormBy($entity, new HttpMethodElement('PUT'));
 
-    /**
-     * @param ServerRequestInterface $request
-     */
-    private function getCustomerBy(ServerRequestInterface $request)
-    {
-        $id = $request->getAttribute('id');
-        $entity = $this->repository->find($id);
-        $this->customerForm->add(new HttpMethodElement('PUT'));
-        $this->customerForm->bind($entity);
-    }
-
-    /**
-     * @return HtmlResponse
-     */
-    private function formUpdateResponse()
-    {
-        return new HtmlResponse($this->template->render("app::customer/update", [
-            'form' => $this->customerForm
-        ]));
-    }
-
-    /**
-     * @param ServerRequestInterface $request
-     * @return HtmlResponse|RedirectResponse
-     */
-    private function customerUpdate(ServerRequestInterface $request)
-    {
-        if ($request->getMethod() != 'PUT' && $request->getMethod() != 'POST') {
-            return $this->formUpdateResponse();
+        if (!$this->verifyMethod($request, ['POST', 'PUT'])) {
+            return $this->formResponse('customer/update');
         }
 
-        $dataRaw = $request->getParsedBody();
-        $this->customerForm->setData($dataRaw);
-
-        if (!$this->customerForm->isValid()) {
-            return $this->formUpdateResponse();
+        $this->rawDataForm($request);
+        if (!$this->isFormValid($request)) {
+            return $this->formResponse('customer/update');
         }
 
-        $entity = $this->customerForm->getData();
-        $this->repository->update($entity);
+        /** @var Customer $customer */
+        $customer = $this->getForm()->getData();
+        $this->formPersiste($customer);
+        $this->messageSuccess($request, self::MSG_UPDATE_SUCCESS);
 
-        /** @var FlashMessagesInterface $flashMessage */
-        $flashMessage = $request->getAttribute(FlashMessageMiddleware::FLASH_ATTRIBUTE);
-        $flashMessage->flash('success', 'Contato atualizado com sucesso!');
-
-        $uri = $this->router->generateUri('customer.list');
-        return new RedirectResponse($uri);
+        return $this->redirectPost('customer.list');
     }
 
+
+    /**
+     * @return bool
+     */
+    protected function formPersiste(Customer $customer): bool
+    {
+        $this->getRepository()->update($customer);
+
+        return true;
+    }
 }
